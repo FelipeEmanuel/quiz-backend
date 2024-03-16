@@ -17,6 +17,7 @@ app.use(cors())
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/animes', require('./routes/animesRoutes'))
 app.use('/api/perguntas', require('./routes/perguntasRoutes'))
+app.use('/api/salas', require('./routes/salasRoutes'))
 
 
 //app.use(errorHandler)

@@ -1,9 +1,8 @@
 const asyncHandler = require('express-async-handler')
-const Anime = require('../models/animesModel')
 const Perguntas = require('../models/perguntasModel')
 
 const getPerguntas = asyncHandler(async (req, res) => {
-    const perguntas = await Perguntas.find()
+    const perguntas = await Perguntas.find().populate("anime", "name tags")
 
     res.status(200).json(perguntas)
 })
@@ -21,9 +20,10 @@ const criarPergunta = asyncHandler(async (req, res) => {
         })
     }
 
-    const perguntas = await Perguntas.find()
+    const perguntas = await Perguntas.find().populate("anime", "name tags")
 
     res.status(200).json(perguntas)
+
 })
 
 module.exports = {
