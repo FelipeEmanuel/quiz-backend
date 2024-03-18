@@ -19,13 +19,21 @@ const criarPergunta = asyncHandler(async (req, res) => {
             descricao, tags, respostacerta, opcoes, dificuldade, anime
         })
     }
-
+        
     const perguntas = await Perguntas.find().populate("anime", "name tags")
 
     res.status(200).json(perguntas)
 
 })
 
+const getPerguntasPorAnime = asyncHandler(async (req, res) => {
+
+    const perguntas = await Perguntas.find({anime: req.params.id})
+
+    res.status(200).json(perguntas)
+
+})
+
 module.exports = {
-    getPerguntas, criarPergunta
+    getPerguntas, criarPergunta, getPerguntasPorAnime
 }

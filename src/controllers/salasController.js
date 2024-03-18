@@ -2,17 +2,32 @@ const asyncHandler = require('express-async-handler')
 const Sala = require('../models/salasModel')
 const Perguntas = require('../models/perguntasModel')
 
-async function getListaPerguntas(qtdPerguntas) {
+async function getListaPerguntas(qtdPerguntas, listaAnimes) {
 
-    const listaPerguntas = await Perguntas.find({}).limit(qtdPerguntas).populate("anime", "name")
 
-    return listaPerguntas
+    const listaPerguntas = await Perguntas.find({anime: listaAnimes}).populate("anime", "name")
+
+    const listaFinal = []
+    const valores = []
+
+    while (listaFinal.length < qtdPerguntas) {
+        let valor = Math.floor(Math.random() * listaPerguntas.length)
+        console.log(valor)
+        if(!valores.includes(valor)) {
+            listaFinal.push(listaPerguntas[valor]);
+            valores.push(valor)
+        }
+    }
+
+    return listaFinal
 }
 
 const criarSala = asyncHandler(async (req, res) => {
 
     let user = req.user.id
-    let listaPerguntas = await getListaPerguntas(req.body.qtdPerguntas)
+    let listaPerguntas = await getListaPerguntas(req.body.qtdPerguntas, req.body.listaAnimes, req.body.dificuldades)
+
+    res.status(200).json(listaPerguntas);
 
     if(req.body.isPublic == false) {
         if(!req.body.salaName || !req.body.senha) {
