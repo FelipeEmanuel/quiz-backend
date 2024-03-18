@@ -3,7 +3,6 @@ const { getSalas, criarSala, entrarNaSala, removerDaSala } = require('../control
 const { protect, isAdmin } = require('../middleware/authMiddleware')
 const router = express.Router()
 
-
 router.post('/', protect, criarSala)
 router.get('/', getSalas)
 router.put('/add', protect, entrarNaSala)

@@ -28,7 +28,7 @@ const criarPergunta = asyncHandler(async (req, res) => {
 
 const getPerguntasPorAnime = asyncHandler(async (req, res) => {
 
-    const perguntas = await Perguntas.find({anime: req.params.id})
+    const perguntas = await Perguntas.find({anime: req.params.id}).populate("anime", "name")
 
     res.status(200).json(perguntas)
 
@@ -49,7 +49,7 @@ const criarPerguntaAnime = asyncHandler(async (req, res) => {
         })
     }
         
-    const perguntas = await Perguntas.find({anime:req.params.id})
+    const perguntas = await Perguntas.find({anime:req.params.id}).populate("anime", "name")
 
     res.status(200).json(perguntas)
     

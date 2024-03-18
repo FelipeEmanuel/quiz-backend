@@ -5,6 +5,6 @@ const {getPerguntas, criarPergunta, getPerguntasPorAnime, criarPerguntaAnime} = 
 router.get('/', getPerguntas)
 router.post('/', criarPergunta)
 router.get('/:id', getPerguntasPorAnime)
-router.post('/pergunta/:id', criarPerguntaAnime)
+router.post('/:id', criarPerguntaAnime)
 
 module.exports = router

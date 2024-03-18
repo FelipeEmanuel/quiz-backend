@@ -7,6 +7,12 @@ const getAnimes = asyncHandler(async (req, res) => {
     res.status(200).json(animes)
 })
 
+const getAnimeById = asyncHandler(async (req, res) => {
+    const animes = await Anime.find({_id: req.params.id})
+
+    res.status(200).json(animes)
+})
+
 const criarAnime = asyncHandler(async (req, res) => {
 
     const {name, tags} = req.body
@@ -26,5 +32,5 @@ const criarAnime = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getAnimes, criarAnime
+    getAnimes, criarAnime, getAnimeById
 }
