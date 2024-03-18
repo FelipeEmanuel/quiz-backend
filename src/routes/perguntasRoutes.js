@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const {getPerguntas, criarPergunta, getPerguntasPorAnime} = require('../controllers/perguntasController')
+const {getPerguntas, criarPergunta, getPerguntasPorAnime, criarPerguntaAnime} = require('../controllers/perguntasController')
 
 router.get('/', getPerguntas)
 router.post('/', criarPergunta)
 router.get('/:id', getPerguntasPorAnime)
+router.post('/pergunta/:id', criarPerguntaAnime)
 
 module.exports = router
