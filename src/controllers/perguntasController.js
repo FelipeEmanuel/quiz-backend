@@ -9,14 +9,14 @@ const getPerguntas = asyncHandler(async (req, res) => {
 
 const criarPergunta = asyncHandler(async (req, res) => {
 
-    const {descricao, tags, respostacerta, opcoes, dificuldade, anime} = req.body
+    const {descricao, tipos, respostasCertas, opcoes, dificuldade, anime} = req.body
 
-    if (!descricao || !tags || !respostacerta || !opcoes || !dificuldade || !anime) {
+    if (!descricao || !tipos || !respostasCertas || !opcoes || !dificuldade || !anime) {
         res.status(400)
         throw new Error('Please add all text fields!')
     } else {
         await Perguntas.create({
-            descricao, tags, respostacerta, opcoes, dificuldade, anime
+            descricao, tipos, respostasCertas, opcoes, dificuldade, anime
         })
     }
         
@@ -37,15 +37,15 @@ const getPerguntasPorAnime = asyncHandler(async (req, res) => {
 
 const criarPerguntaAnime = asyncHandler(async (req, res) => {
 
-    const {descricao, tags, respostacerta, opcoes, dificuldade} = req.body
+    const {descricao, tipos, respostasCertas, opcoes, dificuldade} = req.body
 
 
-    if (!descricao || !tags || !respostacerta || !opcoes || !dificuldade) {
+    if (!descricao || !dificuldade) {
         res.status(400)
         throw new Error('Please add all text fields!')
     } else {
         await Perguntas.create({
-            descricao, tags, respostacerta, opcoes, dificuldade, anime:req.params.id
+            descricao, tipos, respostasCertas, opcoes, dificuldade, anime:req.params.id
         })
     }
         
@@ -55,6 +55,13 @@ const criarPerguntaAnime = asyncHandler(async (req, res) => {
     
 })
 
+const deleteAllPerguntas = asyncHandler(async (req, res) => {
+
+    const perguntas = await Perguntas.deleteMany()
+
+    res.status(200).json(perguntas)
+})
+
 module.exports = {
-    getPerguntas, criarPergunta, getPerguntasPorAnime, criarPerguntaAnime
+    getPerguntas, criarPergunta, getPerguntasPorAnime, criarPerguntaAnime, deleteAllPerguntas
 }

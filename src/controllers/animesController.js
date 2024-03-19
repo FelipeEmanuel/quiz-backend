@@ -17,7 +17,7 @@ const criarAnime = asyncHandler(async (req, res) => {
 
     const {name, tags} = req.body
 
-    if (!name || !tags) {
+    if (!name) {
         res.status(400)
         throw new Error('Please add all text fields!')
     } else {
