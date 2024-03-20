@@ -62,6 +62,34 @@ const deleteAllPerguntas = asyncHandler(async (req, res) => {
     res.status(200).json(perguntas)
 })
 
+const editPergunta = asyncHandler(async (req, res) => {
+    const pergunta = await Perguntas.findById(req.params.id)
+
+    if(!pergunta) {
+        res.status(400)
+        throw new Error('Pergunta not found')
+    }
+
+    const updatedPergunta = await Perguntas.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    })
+    res.status(200).json(updatedPergunta)
+})
+
+const deletePergunta = asyncHandler(async (req, res) => {
+
+    try {
+        await Perguntas.findByIdAndDelete(req.params.id)
+        const perguntas = await Perguntas.find()
+        res.status(200).json(perguntas)
+    } catch (error) {
+        res.status(400)
+        throw new Error(error)
+    }
+    
+       
+})
+
 module.exports = {
-    getPerguntas, criarPergunta, getPerguntasPorAnime, criarPerguntaAnime, deleteAllPerguntas
+    getPerguntas, criarPergunta, getPerguntasPorAnime, criarPerguntaAnime, deleteAllPerguntas, editPergunta, deletePergunta
 }
