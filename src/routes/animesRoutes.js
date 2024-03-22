@@ -8,4 +8,5 @@ router.get('/:id', getAnimeById)
 router.put('/:id', editAnime)
 router.delete('/:id', deleteAnime)
 
+
 module.exports = router

@@ -12,7 +12,10 @@ const salasModel = mongoose.Schema(
     salaAdmin: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     qtdPerguntas: {type: Number, required: true},
     isPublic: {type: Boolean, required: true},
-    maxUsers: {type: Number, required: true}
+    maxUsers: {type: Number, required: true},
+    dificuldades: [{type: String, required: true}],
+    isSolo: {type: Boolean, required: true},
+    tempoResposta: {type: Number, required: true},
   },
   { timestamps: true }
 );

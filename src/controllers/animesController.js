@@ -67,6 +67,7 @@ const deleteAnime = asyncHandler(async (req, res) => {
        
 })
 
+
 module.exports = {
-    getAnimes, criarAnime, getAnimeById, editAnime, deleteAnime
+    getAnimes, criarAnime, getAnimeById, editAnime, deleteAnime,
 }

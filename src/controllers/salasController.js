@@ -43,13 +43,16 @@ const criarSala = asyncHandler(async (req, res) => {
                    qtdPerguntas: req.body.qtdPerguntas,
                    salaAdmin: req.user,
                    isPublic: req.body.isPublic,
-                   maxUsers: req.body.maxUsers  
+                   maxUsers: req.body.maxUsers,
+                   dificuldades: req.body.dificuldades,
+                   tempoResposta: req.body.tempoResposta,
+                   isSolo: req.body.isSolo  
                 });
 
                 const fullSala = await Sala.findOne({ _id: sala._id})
                 .populate("users", "-password")
                 .populate("salaAdmin", "-password")
-                .populate("perguntas", "descricao tags respostacerta opcoes dificuldade anime")
+                .populate("perguntas", "descricao tipos respostasCertas opcoes dificuldade anime")
 
                 res.status(200).json(fullSala);
             } catch (error) {
@@ -70,13 +73,14 @@ const criarSala = asyncHandler(async (req, res) => {
                    qtdPerguntas: req.body.qtdPerguntas,
                    salaAdmin: req.user,
                    isPublic: req.body.isPublic,
-                   maxUsers: req.body.maxUsers 
+                   maxUsers: req.body.maxUsers,
+                   dificuldades: req.body.dificuldades 
                 });
 
                 const fullSala = await Sala.findOne({ _id: sala._id})
                 .populate("users", "-password")
                 .populate("salaAdmin", "-password")
-                .populate("perguntas", "descricao tags respostacerta opcoes dificuldade anime")
+                .populate("perguntas", "descricao tipos respostasCertas opcoes dificuldade anime")
 
                 res.status(200).json(fullSala);
             } catch (error) {
@@ -90,6 +94,9 @@ const criarSala = asyncHandler(async (req, res) => {
 
 const getSalas = asyncHandler(async (req, res) => {
     const salas = await Sala.find()
+    .populate("users", "-password")
+    .populate("salaAdmin", "-password")
+    .populate("perguntas", "descricao tipos respostasCertas opcoes dificuldade anime")
 
     res.status(200).json(salas)
 })
@@ -108,17 +115,23 @@ const entrarNaSala = asyncHandler(async (req, res) => {
                 res.status(404)
                 throw new Error("Sala not found");
             } else {
-                const added = await Sala.findByIdAndUpdate(
-                    acharSala._id,
-                    {
-                        $push: { users: user}
-                    },
-                    { new: true}
-                )
-                .populate("users", "_id name")
-                .populate("salaAdmin", "_id name")
-                .populate("perguntas", "descricao tags respostacerta opcoes dificuldade anime");
-                res.status(200).json(added);
+                if(req.body.senha === acharSala.senha) {
+                    const added = await Sala.findByIdAndUpdate(
+                        acharSala._id,
+                        {
+                            $push: { users: user}
+                        },
+                        { new: true}
+                    )
+                    .populate("users", "_id name")
+                    .populate("salaAdmin", "_id name")
+                    .populate("perguntas", "descricao tipos respostasCertas opcoes dificuldade anime");
+                    res.status(200).json(added);
+
+                } else {
+                    res.status(400)
+                    throw new Error("Senha incorreta");
+                }
             }
             
         }
@@ -136,7 +149,7 @@ const entrarNaSala = asyncHandler(async (req, res) => {
             )
             .populate("users", "_id name")
             .populate("salaAdmin", "_id name")
-            .populate("perguntas", "descricao tags respostacerta opcoes dificuldade anime");
+            .populate("perguntas", "descricao tipos respostasCertas opcoes dificuldade anime");
             res.status(200).json(added);
         }
     }
@@ -162,7 +175,7 @@ const removerDaSala = asyncHandler(async (req, res) => {
         )
         .populate("users", "_id name")
         .populate("salaAdmin", "_id name")
-        .populate("perguntas", "descricao tags respostacerta opcoes dificuldade anime");
+        .populate("perguntas", "descricao tipos respostasCertas opcoes dificuldade anime");
         res.status(200).json(removed);
     }
             
