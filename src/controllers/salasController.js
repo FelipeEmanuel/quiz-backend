@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const Sala = require('../models/salasModel')
 const Perguntas = require('../models/perguntasModel')
+const User = require('../models/userModel')
 
 async function getListaPerguntas(qtdPerguntas, listaAnimes) {
 
@@ -47,6 +48,10 @@ const criarSala = asyncHandler(async (req, res) => {
                    dificuldades: req.body.dificuldades,
                    tempoResposta: req.body.tempoResposta,
                    isSolo: req.body.isSolo  
+                });
+
+                const updatedUser = await User.findByIdAndUpdate(req.user.id, req.body.ingame, {
+                    new: true,
                 });
 
                 const fullSala = await Sala.findOne({ _id: sala._id})
