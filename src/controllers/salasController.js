@@ -79,7 +79,9 @@ const criarSala = asyncHandler(async (req, res) => {
                    salaAdmin: req.user,
                    isPublic: req.body.isPublic,
                    maxUsers: req.body.maxUsers,
-                   dificuldades: req.body.dificuldades 
+                   dificuldades: req.body.dificuldades,
+                   tempoResposta: req.body.tempoResposta,
+                   isSolo: req.body.isSolo   
                 });
 
                 const fullSala = await Sala.findOne({ _id: sala._id})
